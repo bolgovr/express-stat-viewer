@@ -18,14 +18,16 @@ sockets.on('connection', function (socket) {
   var settings = {};
   socket.on('getData', function (data) {
     var tmp = mongo.model(data.stats, new mongo.Schema(empty));
-    console.dir(data);
     if (data.key !== undefined) {
       var search = {};
       if (data.key) {
         search.key = {'$all': data.key.split(',')};
       }
-      if (data.treshold) {
-        search.value = {'$gt': parseInt(data.treshold, 10)};
+      if (data.treshold_min) {
+        search.value = {'$gt': parseInt(data.treshold_min, 10)};
+      }
+      if (data.treshold_max) {
+        search.value = {'$lt': parseInt(data.treshold_min, 10)};
       }
       console.dir(search);
       tmp.find(search).asc('date').run(function (err, docs) {

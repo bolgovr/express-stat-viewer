@@ -26,8 +26,8 @@ sockets.on('connection', function (socket) {
       if (data.treshold_min) {
         search.value = {'$gt': parseInt(data.treshold_min, 10)};
       }
-      if (data.treshold_max) {
-        search.value = {'$lt': parseInt(data.treshold_min, 10)};
+      if (data.treshold_max && data.treshold_max > 0) {
+        search.value = {'$lt': parseInt(data.treshold_max, 10)};
       }
       console.dir(search);
       tmp.find(search).asc('date').run(function (err, docs) {
